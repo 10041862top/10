@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     # `edited` so the PR-description gate re-runs when a contributor fixes the
     # template in the GitHub UI (a body edit does not fire opened/synchronize).
