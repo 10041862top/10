@@ -13,6 +13,17 @@ license = { text = "MIT" }
 [project.scripts]
 book-to-skill = "book_to_skill.cli:main"
 
+dependencies = [
+    "trafilatura",
+    "ebooklib",
+    "beautifulsoup4",
+    "pypdf",
+    "pdfminer.six",
+    "python-docx",
+    "striprtf",
+    "docling"
+]
+
 [project.optional-dependencies]
 html = ["trafilatura"]
 epub = ["ebooklib", "beautifulsoup4"]
