@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - docs/**
       - overrides/**
@@ -70,6 +70,6 @@ jobs:
           sed -i -E 's,\]\(\.\./README\.md\),](guide.md),g' docs/*.md
       - name: Build
         run: mkdocs build
-      - name: Deploy to gh-pages (master push only)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: Deploy to gh-pages (main push only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: mkdocs gh-deploy --force
