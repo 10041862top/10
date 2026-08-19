@@ -1,7 +1,6 @@
 site_name: book-to-skill
 site_description: >-
-  Turn any book, PDF or EPUB into a structured agent skill for Claude Code,
-  GitHub Copilot CLI and Amp — frameworks and decision rules, loaded on demand.
+  將任何書籍、PDF 或 EPUB 轉換為 Claude Code、GitHub Copilot CLI 與 Amp 專用的結構化 agent skill — 按需載入框架與決策規則。
 site_url: https://booktoskill.is-a.dev/
 repo_url: https://github.com/virgiliojr94/book-to-skill
 repo_name: virgiliojr94/book-to-skill
@@ -25,14 +24,14 @@ theme:
       accent: deep purple
       toggle:
         icon: material/weather-night
-        name: Switch to dark mode
+        name: 切換至深色模式
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: deep purple
       accent: deep purple
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
+        name: 切換至淺色模式
   features:
     - navigation.tabs
     - navigation.sections
@@ -46,15 +45,15 @@ theme:
     - search.highlight
 
 nav:
-  - Home: index.md
-  - Guide: guide.md
-  - How it works: how-it-works.md
-  - Usage: usage.md
-  - Install: install.md
-  - FAQ: faq.md
-  - Architecture: architecture.md
-  - Performance: performance.md
-  - Skill Reference: skill-reference.md
+  - 首頁 (Home): index.md
+  - 指南 (Guide): guide.md
+  - 運作原理 (How it works): how-it-works.md
+  - 使用方式 (Usage): usage.md
+  - 安裝 (Install): install.md
+  - 常見問題 (FAQ): faq.md
+  - 系統架構 (Architecture): architecture.md
+  - 效能 (Performance): performance.md
+  - 技能參考 (Skill Reference): skill-reference.md
 
 plugins:
   # `search` is on by default, but naming any plugin replaces the default list.

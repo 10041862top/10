@@ -1,40 +1,40 @@
 ---
-description: "Install book-to-skill as an agent skill for Claude Code, GitHub Copilot CLI, Amp and Codex, or as a standalone pip CLI. Every host path and optional extractor covered."
-seo_title: "Install book-to-skill - Claude Code, Copilot CLI, Amp, or pip"
+description: "將 book-to-skill 安裝為 Claude Code、GitHub Copilot CLI、Amp 與 Codex 的 agent skill，或是作為獨立的 pip CLI 工具。涵蓋所有宿主環境路徑與可選的擴充擷取器。"
+seo_title: "安裝 book-to-skill - 支援 Claude Code, Copilot CLI, Amp 或 pip"
 ---
 
-## 📥 Install
+## 📥 安裝 (Install)
 
-> **Two ways to use it, do not confuse them:**
-> - **As an agent skill** (the `/book-to-skill` command in Claude Code, Copilot CLI, Amp, or Codex) → **`git clone` into your skills folder** (below). This is what gives you the slash command and the full convert-a-book flow.
-> - **As a standalone CLI** (just the text extractor) → `pip install` it from the repository, then `book-to-skill --help`. This does **not** register the agent skill; it only installs the extraction engine. See [the CLI section](#standalone-cli-pip).
+> **有兩種使用方式，請勿混淆：**
+> - **作為一個 agent skill** (在 Claude Code, Copilot CLI, Amp 或 Codex 中使用的 `/book-to-skill` 指令) → **將儲存庫 `git clone` 到您的 skills 資料夾中** (詳見下方)。這樣您才能獲得斜線指令以及完整的書籍轉換流程。
+> - **作為獨立的 CLI 工具** (僅限文字擷取器) → 透過 `pip install` 從儲存庫安裝，然後執行 `book-to-skill --help`。這**不會**註冊 agent skill；它只會安裝擷取引擎。請參閱 [CLI 章節](#standalone-cli-pip)。
 
-The skill follows the open [Agent Skills](https://github.com/agentskills/agentskills) standard, so a single install works for any compatible host.
+此 skill 遵循開放的 [Agent Skills](https://github.com/agentskills/agentskills) 標準，因此只需一次安裝，即可在任何相容的宿主環境中執行。
 
-**One command, any host** — the [`skills` CLI](https://skills.sh) resolves the repo, detects the root `SKILL.md`, and installs the complete skill (including `scripts/extract.py` and `tools/`) into the skills folder of every host you select:
+**一個指令，支援所有環境** — 使用 [`skills` CLI](https://skills.sh) 工具會自動解析儲存庫、偵測根目錄的 `SKILL.md`，並將完整的 skill（包含 `scripts/extract.py` 與 `tools/`）安裝到您所選環境的 skills 資料夾中：
 
 ```bash
 npx skills add virgiliojr94/book-to-skill
 ```
 
-Prefer a manual install? Every per-host `git clone` path below works exactly the same.
+比較偏好手動安裝？下方列出的每一個針對特定宿主環境的 `git clone` 路徑，執行效果都完全相同。
 
-**GitHub Copilot CLI** (personal skill):
+**GitHub Copilot CLI** (個人 skill):
 
 ```bash
 git clone https://github.com/virgiliojr94/book-to-skill.git ~/.copilot/skills/book-to-skill
-# then, in a `copilot` session:
+# 接著，在 `copilot` 會話中：
 /skills reload
 /skills info book-to-skill
 ```
 
-Or the cross-agent path that Copilot CLI, Amp and Codex all discover:
+或是使用 Copilot CLI, Amp 和 Codex 都能自動識別的跨 agent 共用路徑：
 
 ```bash
 git clone https://github.com/virgiliojr94/book-to-skill.git ~/.agents/skills/book-to-skill
 ```
 
-**OpenAI Codex** reads `~/.agents/skills` and follows symlinks, so the clone above is all it needs. A local checkout works too, linked in rather than copied:
+**OpenAI Codex** 會讀取 `~/.agents/skills` 並且支援 symbolic links (符號連結)，所以上方的 clone 指令就足夠了。您也可以在本地端結帳 (checkout) 後，用語法連結的方式取代直接複製：
 
 ```bash
 ln -s /path/to/book-to-skill ~/.agents/skills/book-to-skill
@@ -42,51 +42,43 @@ ln -s /path/to/book-to-skill ~/.agents/skills/book-to-skill
 
 **Claude Code**:
 
-Copy this into your Claude Code session:
+將以下指令複製到您的 Claude Code 會話中：
 
 ```
 Install book-to-skill: https://raw.githubusercontent.com/virgiliojr94/book-to-skill/master/SKILL.md
 ```
 
-Or manually using standard `git clone` (ensures modular engine files are fetched correctly):
+或者使用標準的 `git clone` 手動安裝 (可確保模組化的引擎檔案被正確抓取)：
 
 ```bash
 git clone https://github.com/virgiliojr94/book-to-skill.git ~/.claude/skills/book-to-skill
 ```
 
-Then in any agent session:
+然後在任何 agent 會話中執行：
 
 ```bash
 /book-to-skill ~/path/to/your-book.pdf
-# or
+# 或者
 /book-to-skill ~/path/to/your-book.epub
 ```
 
-### Standalone CLI (pip)
+### 獨立 CLI 工具 (pip)
 
-Installing the CLI with `pip` is a **separate, optional** path. It installs only the
-text-extraction engine as a CLI, for scripting or to grab the optional extractors;
-it does **not** register the `/book-to-skill` agent skill (use the `git clone` above
-for that).
+透過 `pip` 安裝 CLI 是**獨立且選用的**方式。它僅會將文字擷取引擎安裝為命令列工具，供腳本編寫或使用可選的擷取器；它**不會**註冊 `/book-to-skill` agent skill (請使用上方的 `git clone` 來註冊)。
 
-`book-to-skill` is not on PyPI yet, so `pip` takes the package straight from the
-repository:
+`book-to-skill` 尚未發布至 PyPI，因此 `pip` 會直接從儲存庫拉取套件：
 
 ```bash
 pip install "book-to-skill[pdf,epub,docx] @ git+https://github.com/virgiliojr94/book-to-skill.git"
-book-to-skill ~/path/to/book.pdf --mode text  # or: python -m book_to_skill ...
-book-to-skill --check                          # report which extractors are installed
+book-to-skill ~/path/to/book.pdf --mode text  # 或者執行: python -m book_to_skill ...
+book-to-skill --check                          # 回報目前已安裝哪些擷取器
 ```
 
-> **`[html]` is heavier than the others.** It pulls in `trafilatura`, which brings a full
-> HTML-processing stack (lxml, a date parser, a timezone database, a URL classifier — 17
-> packages total) to do real main-content/boilerplate detection instead of just stripping
-> `<script>`/`<style>`. Worth knowing before installing on a constrained machine — the
-> `bs4` fallback (no `[html]` extra needed) still works, just without boilerplate removal.
+> **`[html]` 模組會比其他模組來得龐大。** 由於它會拉取 `trafilatura`，這將引入一整套 HTML 處理堆疊 (包含 lxml、日期解析器、時區資料庫、URL 分類器 — 總共 17 個套件)，以執行真正的主內容/樣板 (boilerplate) 偵測，而不僅僅是移除 `<script>`/`<style>`。在資源受限的機器上安裝前請特別留意 — 備用的 `bs4` 解析器 (不需額外安裝 `[html]`) 依然可以運作，只是無法移除樣板內容。
 
 ---
 
 
 ---
 
-[← Back to the README](../README.md)
+[← 返回 README](../README.md)

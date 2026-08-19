@@ -1,85 +1,85 @@
 ---
-description: "Answers on book-to-skill: why a skill beats dumping a book into context, how it compares to RAG and 1M-token windows, copyright, accuracy, and supported formats."
-seo_title: "book-to-skill FAQ - Skills vs Context Dumps, RAG, Copyright"
+description: "關於 book-to-skill 的問答：為何 skill 勝過直接把整本書丟進 context？它與 RAG 及百萬 token 視窗的差異在哪？還有版權、準確度與支援格式等問題。"
+seo_title: "book-to-skill 常見問題 (FAQ) - Skills vs Context 傾倒, RAG, 版權"
 ---
 
-## ❓ FAQ
+## ❓ 常見問題 (FAQ)
 
-**"Can't I just dump the PDF/EPUB into my Claude project context?"**
+**「我不能直接把 PDF/EPUB 丟進 Claude 專案的 context 中嗎？」**
 
-You can — but every conversation will burn that token budget upfront. A 400-page book is ~200K tokens. With a skill, only the chapters relevant to your question load — typically a SKILL.md core (~4K) plus the one chapter you asked about (~1K). The rest stays on disk until you need it.
+您可以這麼做 — 但這代表每次對話都會預先消耗掉龐大的 token 預算。一本 400 頁的書大約是 200K tokens。而使用 skill，只有與您問題相關的章節才會被載入 — 通常是包含核心概念的 SKILL.md (約 4K) 加上您所詢問的單一章節 (約 1K)。其餘內容會安穩地待在硬碟中，直到您需要時才喚醒。
 
-The economics are amortization, not size. Pasting the book pays the full token bill **on every turn of every session, forever**. book-to-skill pays the extraction cost **once** and every future conversation loads only the slice it needs. The bigger your context window, the more this matters — a large window makes the dump *possible*, not *cheap*.
+這在經濟效益上是一種攤銷 (amortization)，而不是單純的容量問題。直接貼上整本書，意味著**每次會話的每一個回合，您都要支付完整的 token 費用，而且是永遠持續下去**。book-to-skill 則是只需支付**一次**萃取成本，未來的所有對話都只載入必要的片段。您的 context 視窗越大，這一點就越重要 — 巨大的視窗只讓整本書丟進去成為*可能*，但並未讓它變得*便宜*。
 
-More importantly: raw text injection is retrieval. A skill is reasoning. When you load a chapter file, Claude isn't searching for keyword matches — it's working with pre-extracted named frameworks, principles, and mental models structured for application, not for reading.
-
----
-
-**"Claude has a 1M-token context window now — can't I just keep the whole book loaded?"**
-
-A bigger window changes what *fits*, not what's *smart*. Three reasons it isn't a substitute:
-
-- **You pay per token, per call.** A 1M window doesn't make those tokens free — it makes a large, recurring bill possible. The skill loads kilobytes, not megabytes.
-- **Recall degrades with fill.** Models lose precision retrieving a specific fact buried in a near-full context ("lost in the middle"). A 1K curated chapter beats 200K of raw prose for answering one question.
-- **Window ≠ structure.** A full book in context is still raw text the model must re-parse every turn. The skill ships pre-extracted frameworks — reasoning, not retrieval.
-
-Use the big window for what it's good at: a one-off pass over material you'll never need again. Use a skill for knowledge you'll reach for repeatedly.
+更重要的是：注入原始文字是一種「檢索 (retrieval)」。而 skill 是一種「推理 (reasoning)」。當您載入章節檔案時，Claude 並非在搜尋關鍵字配對 — 它正在運用預先萃取出的具名框架、原則和心智模型，這些結構是為了實際應用而設計，而不是單純供閱讀。
 
 ---
 
-**"Isn't this just RAG?"**
+**「Claude 現在有 100 萬 token 的 context 視窗了 — 難道我不能一直把整本書載入著嗎？」**
 
-RAG works at query time: chunk the book → embed everything → find similar vectors → inject into prompt. It's optimized for "find me the part that talks about X."
+更大的視窗改變的是*能裝下什麼*，而不是*什麼作法最聰明*。有三個理由說明為何它無法取代 skill：
 
-book-to-skill works at compile time: one deep analysis run extracts the author's actual frameworks, names them, describes when to use each, captures the anti-patterns. The output is structure the author spent years building — not a similarity search over their sentences.
+- **您是按 token 且每次呼叫付費的。** 100 萬的視窗並不會讓這些 token 免費 — 它只是讓龐大且反覆的帳單成為可能。而 skill 載入的單位是 kilobyte，不是 megabyte。
+- **回憶能力會隨著內容增加而衰退。** 在幾乎塞滿的 context 中，模型要檢索埋藏其中的特定事實時會失去精準度（即「迷失在中間 (lost in the middle)」效應）。為了回答單一問題，1K 精心整理的章節絕對勝過 200K 的原始散文。
+- **視窗空間 ≠ 結構化知識。** 在 context 中的整本書仍然是原始文字，模型在每個回合都必須重新解析。而 skill 提供的是預先萃取好的框架 — 這是推理，而非檢索。
 
-RAG answers: *"here are chunks close to your query."*  
-A skill answers: *"here are the 12 frameworks this author built, ready to reason with."*
-
-Pick by shape of the job:
-
-- **Wide and shallow** — a library of dozens of books, "find the part that mentions X" → a RAG tool (e.g. CandleKeep) wins.
-- **Narrow and deep** — one book or a tight cluster of related sources, frameworks you apply while you work → book-to-skill wins.
-
-They're complementary, not competing: RAG indexes a shelf, book-to-skill masters a spine.
+將大視窗用在它擅長的地方：一次性處理那些您未來不再需要的資料。將 skill 用在您會反覆取用的知識上。
 
 ---
 
-**"Popular books are already in Claude's training data. Why bother?"**
+**「這不就是 RAG (檢索增強生成) 嗎？」**
 
-For widely-known books (Clean Code, DDIA, Pragmatic Programmer), Claude has general knowledge — but it's compressed, averaged across the entire internet's discussion of the book, and may hallucinate specific quotes or chapter locations.
+RAG 是在查詢階段運作：將書本切塊 → 將所有內容向量化 (embed) → 尋找相似向量 → 注入 prompt 中。它是為了「幫我找出討論 X 的部分」所最佳化的。
 
-book-to-skill works from your actual copy. Every framework name, every anti-pattern list, every chapter number is grounded in the text you provided. No training data drift, no hallucinated chapter titles.
+book-to-skill 則是在編譯階段運作：透過一次深度的分析，萃取出作者實際的框架，為它們命名，描述何時該使用哪一個，並捕捉反模式。輸出的結果是作者花費數年建立的結構 — 而非對其句子進行相似度搜尋。
 
-It also shines for books Claude doesn't know at all: niche technical references, internal company documentation, recent publications, translated works.
+RAG 的回答是：*「這裡有一些與您的查詢相近的文字區塊。」*  
+skill 的回答是：*「這裡有這位作者建立的 12 個框架，已準備好進行推理。」*
+
+請根據工作性質來選擇：
+
+- **廣泛而淺層** — 擁有數十本書的圖書館，「找出提及 X 的部分」→ RAG 工具 (如 CandleKeep) 勝出。
+- **狹窄而深層** — 針對單一本書或一組緊密相關的來源，也就是您在工作時會套用的框架 → book-to-skill 勝出。
+
+它們是互補的，而非競爭關係：RAG 索引了一個書架，而 book-to-skill 則是精通一本書的骨幹。
 
 ---
 
-**"NotebookLM handles multiple books better."**
+**「受歡迎的書已經在 Claude 的訓練資料中了。為什麼還要這麼麻煩？」**
 
-Absolutely true — if your workflow is "I have 80 separate books and I want to search across all of them," NotebookLM is the right tool.
+對於廣為人知的書籍（如 Clean Code, DDIA, Pragmatic Programmer），Claude 確實擁有一般性知識 — 但這些知識是經過壓縮的，是整個網際網路對該書討論的平均值，且可能會產生對特定引用或章節位置的幻覺。
 
-book-to-skill is built for a different job: you want to go deep on a specific topic or library, having multiple related documents (papers, chapters, notes) folded into a single unified skill, and even updating it over time as new material arrives! This integrates your customized knowledge base right into your coding or writing workflow, rather than in a separate browser tab.
+book-to-skill 則是根據您實際提供的副本來運作。每一個框架名稱、每一個反模式列表、每一個章節編號，都有您提供的文本作為堅實基礎。沒有訓練資料的偏差，沒有憑空捏造的章節標題。
+
+它對於 Claude 完全不認識的書籍（如小眾技術參考手冊、公司內部文件、近期出版物、翻譯作品）更是能發揮巨大作用。
 
 ---
 
-**"My PDF is a scan and extraction stops right away. Why?"**
+**「NotebookLM 處理多本書的表現更好。」**
 
-Because a scanned PDF is a stack of page images — there is no text in it to extract. Every tool in the PDF chain reads a text layer, so a scan yields nothing no matter which one runs.
+完全正確 — 如果您的工作流程是「我有 80 本不同的書，我想要在所有書中進行搜尋」，NotebookLM 絕對是正確的工具。
 
-The extractor checks the first pages and stops there with that explanation. That check exists so the failure costs you a second instead of a full pass over a 400-page book that ends in an empty skill.
+book-to-skill 是為了不同的工作而生：您想要針對特定主題或函式庫深入探討，將多份相關文件（論文、章節、筆記）整合為一個單一且統一的 skill，甚至隨著新資料的到來持續更新它！這會將您客製化的知識庫直接整合到您的程式編寫或寫作工作流程中，而不是另開一個獨立的瀏覽器分頁。
 
-Run OCR first, then convert the output:
+---
+
+**「我的 PDF 是掃描檔，結果萃取馬上就停止了。為什麼？」**
+
+因為掃描版 PDF 是一疊頁面圖片 — 裡面根本沒有文字可供萃取。PDF 工具鏈中的所有工具都是讀取文字層，所以如果是掃描檔，不管跑哪個工具都不會有結果。
+
+萃取器會檢查前幾頁，並因為這個原因而在那裡停止。這個檢查機制的設計是為了讓失敗只浪費您一秒鐘，而不是對一本 400 頁的書執行完整掃描後，最後卻得到一個空的 skill。
+
+請先執行 OCR (光學字元辨識)，然後再轉換輸出的檔案：
 
 ```bash
 ocrmypdf input.pdf output.pdf
 ```
 
-book-to-skill does not run OCR itself, and that is deliberate: it would mean a heavy dependency and a slow, lossy step for every user, to serve a case that a dedicated tool already handles better. The same applies to figures — text baked into diagrams and charts is not extracted from any format.
+book-to-skill 本身不執行 OCR，這是刻意設計的：這會引入一個龐大的依賴套件，並讓每個使用者都多出一個緩慢且有損的步驟，只為了去處理一個專用工具已經能處理得更好的情況。同樣的道理也適用於圖表 — 烘焙在圖表中的文字無法從任何格式中被萃取出來。
 
 ---
 
 
 ---
 
-[← Back to the README](../README.md)
+[← 返回 README](../README.md)
