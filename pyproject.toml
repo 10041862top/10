@@ -10,9 +10,6 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 
-[project.scripts]
-book-to-skill = "book_to_skill.cli:main"
-
 dependencies = [
     "trafilatura",
     "ebooklib",
@@ -23,6 +20,9 @@ dependencies = [
     "striprtf",
     "docling"
 ]
+
+[project.scripts]
+book-to-skill = "book_to_skill.cli:main"
 
 [project.optional-dependencies]
 html = ["trafilatura"]
